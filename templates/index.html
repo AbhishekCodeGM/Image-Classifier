@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fruit Classifier</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+  <style>
+    :root {
+  --primary: #2980b9;
+  --primary-dark: #1a5276;
+  --bg: #f4fbff;
+  --white: #fff;
+  --error: #e74c3c;
+    --bg-gradient-1: #f0f4ff;
+    --bg-gradient-2: #f9f9ff;
+    }
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
+        font-family: system-ui, -apple-system, sans-serif;
+    }
+  .container {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 2rem;
+        margin: 2rem auto;
+        max-width: 1200px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    nav {
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 8px rgba(41, 128, 185, 0.08);
+}
+
+nav h1 {
+  margin: 0;
+  font-size: 1.6em;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+
+nav .links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+nav .links a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+nav .links a:hover {
+  background: rgba(255,255,255,0.12);
+}
+    /* Review Form Styles */
+#reviewForm {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#reviewForm div {
+    margin-bottom: 1rem;
+}
+
+#reviewForm label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+#reviewForm input,
+#reviewForm select,
+#reviewForm textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+#reviewForm input:focus,
+#reviewForm select:focus,
+#reviewForm textarea:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#reviewForm textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Star Rating Styles */
+.rating-stars {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    color: #cbd5e0;
+    cursor: pointer;
+}
+
+.rating-stars span {
+    transition: color 0.2s ease;
+}
+
+.rating-stars span:hover,
+.rating-stars span.active {
+    color: #fbbf24;
+}
+
+/* Submit Button Styles */
+#reviewForm button[type="submit"] {
+    grid-column: span 2;
+    background: #667eea;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#reviewForm button[type="submit"]:hover {
+    background: #5a67d8;
+}
+
+/* Success Message Styles */
+#reviewSuccess {
+    display: none;
+    background: #84e1bc;
+    color: #046c4e;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    margin: 1rem 0;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Reviews Table Styles */
+.table-responsive {
+    overflow-x: auto;
+    margin: 2rem 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reviews-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+.reviews-table th,
+.reviews-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.reviews-table th {
+    background: #f7fafc;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.reviews-table tr:hover {
+    background: #f8fafc;
+}
+
+.reviews-table td a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.reviews-table td a:hover {
+    text-decoration: underline;
+}
+
+/* Star Rating in Table */
+.reviews-table .stars {
+    color: #fbbf24;
+    letter-spacing: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #reviewForm {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+    }
+
+    #reviewForm button[type="submit"] {
+        grid-column: span 1;
+    }
+
+    .table-responsive {
+        margin: 1rem -1rem;
+        border-radius: 0;
+    }
+}
+
+/* Form Validation Styles */
+#reviewForm input:invalid,
+#reviewForm select:invalid,
+#reviewForm textarea:invalid {
+    border-color: #fc8181;
+}
+
+#reviewForm input:invalid:focus,
+#reviewForm select:invalid:focus,
+#reviewForm textarea:invalid:focus {
+    box-shadow: 0 0 0 3px rgba(252, 129, 129, 0.1);
+}
+
+/* Loading State */
+#reviewForm.loading button[type="submit"] {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Required Field Indicator */
+#reviewForm label::after {
+    content: ' *';
+    color:rgb(129, 180, 252);
+}
+  </style>
+</head>
+<body>
+<nav>
+  <h1 style="color: var(--white);">FreshLens</h1>
+  <div class="links">
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('index') }}">Freshness Detection</a>
+    <a href="{{ url_for('contact') }}">Contact</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="#">Profile Update</a>
+    <a href="{{ url_for('image_identifier') }}">ImageIdentifier</a>
+    <button id="endSessionBtn">End Session</button>
+  </div>
+</nav>
+  <div class="container">
+    <h1>🍇 Fruit Classifier</h1>
+
+    <form id="upload-form">
+      <label class="upload-area" id="uploadArea">
+        <div class="upload-icon">
+  <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+    <path d="M12 16V4M12 4L7 9M12 4l5 5" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="4" y="16" width="16" height="4" rx="2" fill="#667eea" opacity="0.2"/>
+  </svg>
+</div>
+        <div class="upload-text">Click to upload or drag & drop an image</div>
+        <input type="file" name="image" id="imageInput" accept="image/*" required />
+      </label>
+
+      <img id="preview" alt="Preview" />
+
+      <button type="submit">Identify Fruit</button>
+    </form>
+
+    <div id="result"></div>
+
+  </div>
+  <div class="container">
+  <h2>⭐ Rate & Review This Product</h2>
+  <form id="reviewForm" novalidate>
+    <div>
+      <label for="productName">Product Name *</label>
+      <input type="text" id="productName" name="productName" required placeholder="Enter product name" />
+    </div>
+    <div>
+      <label for="productTypeReview">Product Type *</label>
+      <select id="productTypeReview" name="productTypeReview" required>
+        <option value="">Choose a product...</option>
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+        <option value="orange">Orange</option>
+        <option value="grape">Grape</option>
+        <option value="mango">Mango</option>
+      </select>
+    </div>
+    <div style="grid-column: span 2;">
+      <label for="reviewText">Review *</label>
+      <textarea id="reviewText" name="reviewText" required placeholder="Write your review here..."></textarea>
+    </div>
+    <div style="grid-column: span 2;">
+      <label for="sourceUrl">Source URL *</label>
+      <input type="url" id="sourceUrl" name="sourceUrl" required placeholder="Enter purchase/source URL" />
+    </div>
+    <div>
+      <label>Star Rating *</label>
+      <div class="rating-stars" id="ratingStars" aria-label="Star rating" role="radiogroup" tabindex="0">
+        <span data-star="1" role="radio" aria-checked="false" tabindex="-1">★</span>
+        <span data-star="2" role="radio" aria-checked="false" tabindex="-1">★</span>
+        <span data-star="3" role="radio" aria-checked="false" tabindex="-1">★</span>
+        <span data-star="4" role="radio" aria-checked="false" tabindex="-1">★</span>
+        <span data-star="5" role="radio" aria-checked="false" tabindex="-1">★</span>
+      </div>
+    </div>
+    <button type="submit">Submit Review</button>
+  </form>
+  <p id="reviewSuccess">✅ Review submitted successfully!</p>
+  <h4>📋 All Reviews</h4>
+  <div class="table-responsive">
+    <table class="reviews-table" aria-label="Product reviews">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Type</th>
+          <th>Rating</th>
+          <th>Review</th>
+          <th>Source URL</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="reviewsTableBody">
+        <!-- Reviews added here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  <script>
+    const uploadArea = document.getElementById('uploadArea');
+    const imageInput = document.getElementById('imageInput');
+    const preview = document.getElementById('preview');
+    const form = document.getElementById('upload-form');
+    const resultDiv = document.getElementById('result');
+
+    // Drag & Drop
+    uploadArea.addEventListener('dragover', e => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        imageInput.files = e.dataTransfer.files;
+        showPreview(file);
+      }
+    });
+
+    uploadArea.addEventListener('click', () => imageInput.click());
+
+    imageInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        showPreview(file);
+      }
+    });
+    // ...existing code...
+uploadArea.addEventListener('click', () => {
+  // Only open the file dialog if no file is selected
+  if (!imageInput.files.length) {
+    imageInput.click();
+  }
+});
+// ...existing code...
+
+    function showPreview(file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const file = imageInput.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('image', file);
+
+      resultDiv.innerHTML = '<div class="loading-spinner"></div>Analyzing...';
+      resultDiv.className = 'result-loading';
+      resultDiv.style.display = 'block';
+
+      try {
+        const res = await fetch('/predict', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!res.ok) throw new Error('Server error');
+
+        const data = await res.json();
+        resultDiv.className = 'result-success';
+        resultDiv.innerHTML = `<strong>Fruit:</strong> ${data.fruit}<br><strong>Status:</strong> ${data.status}`;
+      } catch (err) {
+        resultDiv.className = 'result-error';
+        resultDiv.innerHTML = '❌ Failed to classify the fruit. Please try again.';
+      }
+    });
+
+    class ReviewManager {
+    constructor() {
+        this.form = document.getElementById('reviewForm');
+        this.ratingStars = document.getElementById('ratingStars');
+        this.tableBody = document.getElementById('reviewsTableBody');
+        this.successMessage = document.getElementById('reviewSuccess');
+        this.selectedRating = 0;
+        
+        this.initializeEvents();
+        this.loadReviews();
+    }
+
+    initializeEvents() {
+        this.ratingStars.addEventListener('click', (e) => {
+            if (e.target.matches('span')) {
+                this.selectedRating = parseInt(e.target.dataset.star);
+                this.updateStarDisplay();
+            }
+        });
+
+        this.form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await this.submitReview();
+        });
+    }
+
+    updateStarDisplay() {
+        const stars = this.ratingStars.children;
+        for (let star of stars) {
+            const starValue = parseInt(star.dataset.star);
+            star.classList.toggle('active', starValue <= this.selectedRating);
+            star.setAttribute('aria-checked', starValue <= this.selectedRating);
+        }
+    }
+
+    async submitReview() {
+        const formData = {
+            productName: document.getElementById('productName').value,
+            productType: document.getElementById('productTypeReview').value,
+            rating: this.selectedRating,
+            reviewText: document.getElementById('reviewText').value,
+            sourceUrl: document.getElementById('sourceUrl').value
+        };
+
+        if (!this.validateForm(formData)) return;
+
+        try {
+            const response = await fetch('/api/reviews', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            if (!response.ok) throw new Error('Failed to submit review');
+
+            this.showSuccess();
+            this.form.reset();
+            this.selectedRating = 0;
+            this.updateStarDisplay();
+            await this.loadReviews();
+
+        } catch (error) {
+            alert('Error submitting review: ' + error.message);
+        }
+    }
+
+    validateForm(data) {
+        if (!data.productName || !data.productType || !data.rating || 
+            !data.reviewText || !data.sourceUrl) {
+            alert('Please fill all required fields and select a rating');
+            return false;
+        }
+        return true;
+    }
+
+    showSuccess() {
+        this.successMessage.style.display = 'block';
+        setTimeout(() => {
+            this.successMessage.style.display = 'none';
+        }, 3000);
+    }
+
+    async loadReviews() {
+        try {
+            const response = await fetch('/api/reviews');
+            if (!response.ok) throw new Error('Failed to load reviews');
+            
+            const reviews = await response.json();
+            this.updateReviewsTable(reviews);
+        } catch (error) {
+            console.error('Error loading reviews:', error);
+        }
+    }
+
+    updateReviewsTable(reviews) {
+        this.tableBody.innerHTML = reviews.map(review => `
+            <tr>
+                <td>${this.escapeHtml(review.productName)}</td>
+                <td>${this.escapeHtml(review.productType)}</td>
+                <td>${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</td>
+                <td>${this.escapeHtml(review.reviewText)}</td>
+                <td><a href="${this.escapeHtml(review.sourceUrl)}" target="_blank" rel="noopener">Link</a></td>
+                <td>${new Date(review.createdAt).toLocaleDateString()}</td>
+            </tr>
+        `).join('');
+    }
+
+    escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+}
+
+// Initialize review manager
+const reviewManager = new ReviewManager();
+  </script>
+</body>
+</html>

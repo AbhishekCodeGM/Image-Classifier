@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Identifier</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  
+</head>
+<body>
+
+<nav>
+  <h1>FreshLens
+  </h1>
+  <div class="links">
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('index') }}">Freshness Detection</a>
+    <a href="{{ url_for('contact') }}">Contact</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="#">Profile Update</a>
+    <a href="{{ url_for('image_identifier') }}">ImageIdentifier</a>
+    <button id="endSessionBtn">End Session</button>
+  </div>
+</nav>
+
+<div class="container">
+    <h2>About Our Product Identifier Project</h2>
+
+    <div class="project-overview">
+        <h3>🎯 Project Overview</h3>
+        <p>The Product Identifier is an innovative web application that leverages cutting-edge artificial intelligence and computer vision technologies to revolutionize how we identify and assess fruits. Our system combines deep learning models with user-friendly interfaces to provide instant, accurate fruit recognition and freshness analysis.</p>
+        
+        <p>Built with modern web technologies and powered by advanced machine learning algorithms, our platform serves both consumers and industry professionals who need reliable fruit identification and quality assessment tools. Whether you're a grocery shopper, farmer, or food industry professional, our system provides valuable insights into fruit quality and characteristics.</p>
+    </div>
+
+    <div class="features-section">
+        <h3>🔍 Key Features</h3>
+        
+        <div class="feature-item">
+            <h4>🍎 AI-Powered Fruit Recognition</h4>
+            <p>Our advanced machine learning models can accurately identify various types of fruits from images with high precision and reliability. Upload images or use your device camera to get immediate fruit identification results with confidence scores and detailed analysis.</p>
+        </div>
+        
+        <div class="feature-item">
+            <h4>✨ Freshness Detection</h4>
+            <p>Evaluate fruit quality and freshness levels using sophisticated image analysis algorithms to determine optimal consumption time. Our AI evaluates fruit condition, ripeness levels, and provides recommendations for optimal consumption timing.</p>
+        </div>
+        
+        <div class="feature-item">
+            <h4>📱 Multi-Platform Support</h4>
+            <p>Works seamlessly across desktop and mobile devices with camera integration for real-time fruit analysis and identification. Fast, efficient image processing that delivers results in seconds, making it practical for everyday use.</p>
+        </div>
+        
+        <div class="feature-item">
+            <h4>⭐ User Reviews & Ratings</h4>
+            <p>Community-driven feedback system allowing users to rate and review identified products, building a comprehensive database of fruit quality information and user experiences.</p>
+        </div>
+    </div>
+
+    <div class="technology-section">
+        <h3>🔬 Technology Stack</h3>
+        <p>Our application is built using a robust combination of modern technologies:</p>
+        
+        <div class="tech-list">
+            <div class="tech-category">
+                <h4>Backend Technologies:</h4>
+                <ul>
+                    <li><strong>Python & Flask:</strong> Web framework for handling requests and responses</li>
+                    <li><strong>Machine Learning Models:</strong> Advanced AI algorithms for image recognition</li>
+                    <li><strong>Computer Vision:</strong> Image processing and analysis capabilities</li>
+                    <li><strong>RESTful APIs:</strong> Seamless data communication</li>
+                </ul>
+            </div>
+            
+            <div class="tech-category">
+                <h4>Frontend Technologies:</h4>
+                <ul>
+                    <li><strong>HTML5 & CSS3:</strong> Modern web standards and responsive design</li>
+                    <li><strong>JavaScript:</strong> Interactive user interface and camera integration</li>
+                    <li><strong>Responsive Design:</strong> Optimal experience across all devices</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="how-it-works">
+        <h3>🌟 How It Works</h3>
+        
+        <div class="step-item">
+            <h4>Step 1: Image Capture</h4>
+            <p>Capture or upload an image of the fruit you want to identify using our intuitive interface with drag-and-drop functionality or camera integration.</p>
+        </div>
+        
+        <div class="step-item">
+            <h4>Step 2: AI Processing</h4>
+            <p>Our AI system processes the image using advanced computer vision algorithms to extract key features and characteristics from the uploaded image.</p>
+        </div>
+        
+        <div class="step-item">
+            <h4>Step 3: Analysis & Identification</h4>
+            <p>Machine learning models analyze the extracted features to identify the fruit type and assess its quality, freshness, and other relevant characteristics.</p>
+        </div>
+        
+        <div class="step-item">
+            <h4>Step 4: Results & Recommendations</h4>
+            <p>Receive comprehensive results including fruit identification, freshness status, confidence levels, and recommendations for optimal use.</p>
+        </div>
+    </div>
+
+    <div class="applications-section">
+        <h3>🎯 Target Applications</h3>
+        
+        <div class="application-item">
+            <h4>👥 Consumer Use</h4>
+            <p>Help shoppers make informed decisions when purchasing fruits by providing instant quality assessment and identification, reducing food waste and improving shopping experiences.</p>
+        </div>
+        
+        <div class="application-item">
+            <h4>🎓 Educational</h4>
+            <p>Support learning environments where students and researchers need accurate fruit identification for studies, projects, and agricultural research initiatives.</p>
+        </div>
+        
+        <div class="application-item">
+            <h4>🏪 Commercial</h4>
+            <p>Assist grocery stores, restaurants, and food service providers in quality control, inventory management, and ensuring product freshness standards.</p>
+        </div>
+        
+        <div class="application-item">
+            <h4>🌱 Agricultural</h4>
+            <p>Support farmers and agricultural professionals in crop assessment, harvest timing decisions, and quality evaluation processes for better yield management.</p>
+        </div>
+    </div>
+
+    <div class="mission-section">
+        <h3>🚀 Our Mission</h3>
+        <p>We're committed to making fruit identification and quality assessment accessible to everyone through innovative AI technology. Our goal is to reduce food waste, improve shopping experiences, and provide valuable insights that help people make better choices about the fruits they consume.</p>
+        
+        <p>By combining advanced machine learning with user-friendly design, we're building a platform that serves both individual consumers and industry professionals with reliable, accurate, and fast fruit analysis capabilities.</p>
+    </div>
+
+    <div class="future-section">
+        <h3>🔮 Future Developments</h3>
+        <p>We're continuously working to expand our system's capabilities, including:</p>
+        <ul>
+            <li>Support for more fruit varieties and exotic fruits</li>
+            <li>Enhanced freshness detection algorithms with improved accuracy</li>
+            <li>Nutritional information integration and dietary recommendations</li>
+            <li>Advanced quality prediction features and shelf-life estimation</li>
+            <li>Mobile app versions for iOS and Android platforms</li>
+            <li>API access for third-party integrations and business solutions</li>
+            <li>Expanded machine learning models for comprehensive fruit analysis</li>
+        </ul>
+    </div>
+</div>
+
+<footer>
+    &copy; 2025 Product Identifier. All rights reserved.
+</footer>
+</body>
+</html>

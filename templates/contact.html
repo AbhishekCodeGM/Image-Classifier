@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us - Fruit & Vegetable Identifier</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav>
+  <h1>FreshLens
+  </h1>
+  <div class="links">
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('index') }}">Freshness Detection</a>
+    <a href="{{ url_for('contact') }}">Contact</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="#">Profile Update</a>
+    <a href="{{ url_for('image_identifier') }}">ImageIdentifier</a>
+    <button id="endSessionBtn">End Session</button>
+  </div>
+</nav>
+  <div class="contact-section">
+    <h2>Contact Us</h2>
+    <p>If you have questions, feedback, or need support with the Fruit & Vegetable Identifier, please reach out to us:</p>
+    <ul>
+      <li>Email: support@fruitvegidentifier.com</li>
+      <li>Phone: +1-234-567-8901</li>
+      <li>Address: 123 Healthy Foods Lane, Green City</li>
+    </ul>
+    <p>We appreciate your interest and look forward to helping you with fresh and healthy food choices!</p>
+  </div>
+  <footer>
+    &copy; 2025 Fruit & Vegetable Identifier. All rights reserved.
+  </footer>
+</body>
+</html>
